@@ -1,0 +1,62 @@
+version: 1
+send_anonymous_usage_stats: true
+project_id: tap-purecloud
+default_environment: test
+environments:
+- name: test
+plugins:
+  extractors:
+  - name: tap-purecloud
+    namespace: tap_purecloud
+    pip_url: -e .
+    capabilities:
+    - state
+    - catalog
+    - discover
+    - about
+    - stream-maps
+
+    settings_group_validation:
+    - [start_date, end_date, domain, client_id, client_secret]
+
+    settings:
+    - name: start_date
+      kind: date_iso8601
+      label: Start Date
+      description: Initial date to start extracting data from
+
+    - name: end_date
+      kind: date_iso8601
+      label: End Date
+      description: Date up until data is extracted
+
+    - name: domain
+      kind: string
+      label: Start Date
+      description: Initial date to start extracting data from
+
+    - name: client_id
+      kind: password
+      label: Start Date
+      description: Authentication information
+
+      sensitive: true
+    - name: client_secret
+      kind: password
+      label: Start Date
+      description: Authentication information
+
+      sensitive: true
+    config:
+      start_date: '2024-09-21'
+      end_date: '2024-09-22'
+      domain: xyz
+      client_id: xyz
+      client_secret: xyz
+
+    select:
+    - '*.*'
+  loaders:
+  - name: target-jsonl
+    variant: andyh1203
+    pip_url: target-jsonl
